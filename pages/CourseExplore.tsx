@@ -8,6 +8,19 @@ const CourseExplore: React.FC = () => {
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>('All Levels');
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>(['Web Development', 'Marketing']); // Mock initial state
 
+  const handleSubjectChange = (subject: string) => {
+    setSelectedSubjects(prev => 
+      prev.includes(subject) 
+        ? prev.filter(s => s !== subject) 
+        : [...prev, subject]
+    );
+  };
+
+  const handleClearAll = () => {
+    setSelectedDifficulty('All Levels');
+    setSelectedSubjects([]);
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -20,7 +33,12 @@ const CourseExplore: React.FC = () => {
                 <div className="sticky top-24 space-y-8">
                     <div className="flex items-center justify-between">
                         <h2 className="text-xl font-bold text-gray-900 dark:text-white">Filters</h2>
-                        <button className="text-sm font-bold text-primary bg-primary/10 px-3 py-1.5 rounded-lg hover:bg-primary/20">Clear All</button>
+                        <button 
+                          onClick={handleClearAll}
+                          className="text-sm font-bold text-primary bg-primary/10 px-3 py-1.5 rounded-lg hover:bg-primary/20 transition-colors"
+                        >
+                          Clear All
+                        </button>
                     </div>
 
                     <div className="border-b border-gray-200 dark:border-gray-800 pb-6">
@@ -32,7 +50,7 @@ const CourseExplore: React.FC = () => {
                                         type="checkbox" 
                                         className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary bg-transparent"
                                         checked={selectedSubjects.includes(subject)}
-                                        onChange={() => {}} // Mock
+                                        onChange={() => handleSubjectChange(subject)}
                                     />
                                     <span className="text-gray-700 dark:text-gray-300 group-hover:text-primary transition-colors">{subject}</span>
                                 </label>
